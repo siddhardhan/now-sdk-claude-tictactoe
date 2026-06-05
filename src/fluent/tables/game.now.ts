@@ -23,12 +23,12 @@ export const x_1561651_tic_tac_game = Table({
         }),
         status: ChoiceColumn({
             label: 'Status',
-            choices: [
-                { label: 'Waiting for Opponent', value: 'waiting' },
-                { label: 'In Progress',          value: 'in_progress' },
-                { label: 'Completed',            value: 'completed' },
-                { label: 'Draw',                 value: 'draw' },
-            ],
+            choices: {
+                waiting:     { label: 'Waiting for Opponent' },
+                in_progress: { label: 'In Progress' },
+                completed:   { label: 'Completed' },
+                draw:        { label: 'Draw' },
+            },
         }),
         winner: ReferenceColumn({
             label: 'Winner',
