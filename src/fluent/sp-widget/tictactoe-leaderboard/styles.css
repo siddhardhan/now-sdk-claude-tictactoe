@@ -1,0 +1,35 @@
+.ttt-leaderboard  { max-width: 720px; margin: 0 auto; padding: 20px; }
+.ttt-lb-header    { display: flex; align-items: center; margin-bottom: 28px; position: relative; }
+.ttt-lb-header h2 { flex: 1; text-align: center; margin: 0; font-size: 28px; }
+.ttt-lb-back      { position: absolute; left: 0; }
+.ttt-lb-empty     { padding: 48px 0; font-size: 16px; }
+
+.ttt-lb-table     { font-size: 14px; }
+.ttt-lb-rank      { width: 40px; text-align: center; font-size: 18px; }
+.ttt-lb-num       { text-align: center; width: 48px; }
+.ttt-wins-col     { font-weight: bold; color: #27ae60; }
+.ttt-lb-pct-col   { width: 120px; }
+.ttt-lb-me        { background: #eaf4ff !important; }
+
+.ttt-pct-bar {
+    position: relative;
+    background: #f0f0f0;
+    border-radius: 4px;
+    height: 22px;
+    overflow: hidden;
+}
+.ttt-pct-fill {
+    background: #2ecc71;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+.ttt-pct-label {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    text-align: center;
+    line-height: 22px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+}

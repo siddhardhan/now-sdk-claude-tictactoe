@@ -1,0 +1,48 @@
+<div class="ttt-leaderboard">
+
+  <div class="ttt-lb-header">
+    <button class="btn btn-default btn-sm ttt-lb-back" ng-click="c.goLobby()">&#8592; Lobby</button>
+    <h2>Leaderboard</h2>
+  </div>
+
+  <div ng-if="!c.data.players.length" class="text-muted text-center ttt-lb-empty">
+    No completed games yet &mdash; go play some games!
+  </div>
+
+  <table class="table table-hover ttt-lb-table" ng-if="c.data.players.length">
+    <thead>
+      <tr>
+        <th class="ttt-lb-rank">#</th>
+        <th>Player</th>
+        <th class="ttt-lb-num ttt-wins-col">W</th>
+        <th class="ttt-lb-num">L</th>
+        <th class="ttt-lb-num">D</th>
+        <th class="ttt-lb-num">Total</th>
+        <th class="ttt-lb-pct-col">Win %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="p in c.data.players"
+          ng-class="{'ttt-lb-me': p.sys_id === c.data.currentUserId}">
+        <td class="ttt-lb-rank">
+          <span ng-if="$index === 0">&#129351;</span>
+          <span ng-if="$index === 1">&#129352;</span>
+          <span ng-if="$index === 2">&#129353;</span>
+          <span ng-if="$index > 2" class="text-muted">{{$index + 1}}</span>
+        </td>
+        <td>{{p.name}} <span ng-if="p.sys_id === c.data.currentUserId" class="label label-primary">You</span></td>
+        <td class="ttt-lb-num ttt-wins-col">{{p.wins}}</td>
+        <td class="ttt-lb-num">{{p.losses}}</td>
+        <td class="ttt-lb-num">{{p.draws}}</td>
+        <td class="ttt-lb-num">{{p.total}}</td>
+        <td class="ttt-lb-pct-col">
+          <div class="ttt-pct-bar">
+            <div class="ttt-pct-fill" ng-style="{width: p.winPct + '%'}"></div>
+            <span class="ttt-pct-label">{{p.winPct}}%</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
