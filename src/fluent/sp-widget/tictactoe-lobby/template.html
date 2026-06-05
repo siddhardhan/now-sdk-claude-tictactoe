@@ -1,5 +1,13 @@
 <div class="ttt-lobby">
-  <h2>Tic Tac Toe</h2>
+
+  <!-- Header with leaderboard nav -->
+  <div class="ttt-lobby-header">
+    <h2>Tic Tac Toe</h2>
+    <button class="btn btn-default btn-sm ttt-lb-btn" ng-click="c.goLeaderboard()">Leaderboard</button>
+  </div>
+
+  <!-- Error banner -->
+  <div ng-if="c.data.error" class="alert alert-danger">{{c.data.error}}</div>
 
   <!-- Create new game -->
   <div class="panel panel-primary">
@@ -12,12 +20,35 @@
           <button class="btn btn-primary" ng-click="c.createGame()">Create &amp; Wait</button>
         </span>
       </div>
+      <div class="input-group" style="margin-top:8px">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+        <input type="text" class="form-control" ng-model="c.newOpponent"
+               placeholder="Challenge specific user (username, optional)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Challenges for me -->
+  <div class="panel panel-danger" ng-if="c.data.challenges.length">
+    <div class="panel-heading"><h3 class="panel-title">Challenges for Me</h3></div>
+    <div class="panel-body">
+      <table class="table table-condensed">
+        <thead><tr><th>Title</th><th>From</th><th>Since</th><th></th></tr></thead>
+        <tbody>
+          <tr ng-repeat="g in c.data.challenges">
+            <td>{{g.title}}</td>
+            <td>{{g.from}}</td>
+            <td>{{g.created}}</td>
+            <td><button class="btn btn-xs btn-danger" ng-click="c.acceptChallenge(g.sys_id)">Accept</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <!-- My waiting games -->
   <div class="panel panel-warning" ng-if="c.data.myWaiting.length">
-    <div class="panel-heading"><h3 class="panel-title">My Games — Waiting for Opponent</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">My Games &mdash; Waiting for Opponent</h3></div>
     <div class="panel-body">
       <table class="table table-condensed">
         <thead><tr><th>Title</th><th>Created</th><th></th></tr></thead>
@@ -32,9 +63,9 @@
     </div>
   </div>
 
-  <!-- Available games to join -->
+  <!-- Available open games to join -->
   <div class="panel panel-success">
-    <div class="panel-heading"><h3 class="panel-title">Available Games — Join One</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">Available Games &mdash; Join One</h3></div>
     <div class="panel-body">
       <p ng-if="!c.data.availableGames.length" class="text-muted">
         No open games right now. Create one above!
@@ -65,7 +96,7 @@
             <td>{{g.vs}}</td>
             <td>
               <span ng-if="g.isMyTurn"  class="label label-success">Your Turn</span>
-              <span ng-if="!g.isMyTurn" class="label label-default">Waiting…</span>
+              <span ng-if="!g.isMyTurn" class="label label-default">Waiting&hellip;</span>
             </td>
             <td><button class="btn btn-xs btn-info" ng-click="c.openGame(g.sys_id)">Play</button></td>
           </tr>
@@ -73,4 +104,35 @@
       </table>
     </div>
   </div>
+
+  <!-- My past games -->
+  <div class="panel panel-default" ng-if="c.data.pastGames.length">
+    <div class="panel-heading"><h3 class="panel-title">My Past Games</h3></div>
+    <div class="panel-body">
+      <table class="table table-condensed ttt-history-table">
+        <thead><tr><th>Board</th><th>Title</th><th>Opponent</th><th>Symbol</th><th>Result</th><th>Date</th></tr></thead>
+        <tbody>
+          <tr ng-repeat="g in c.data.pastGames">
+            <td>
+              <div class="ttt-mini-board">
+                <span ng-repeat="cell in g.boardCells track by $index"
+                      class="ttt-mini-cell"
+                      ng-class="{'ttt-mc-x': cell === 'X', 'ttt-mc-o': cell === 'O'}">{{cell === '-' ? '' : cell}}</span>
+              </div>
+            </td>
+            <td>{{g.title}}</td>
+            <td>{{g.opponent}}</td>
+            <td><span class="ttt-sym-badge" ng-class="g.mySymbol === 'X' ? 'x' : 'o'">{{g.mySymbol}}</span></td>
+            <td>
+              <span ng-if="g.outcome === 'won'"  class="label label-success">Won</span>
+              <span ng-if="g.outcome === 'lost'" class="label label-danger">Lost</span>
+              <span ng-if="g.outcome === 'draw'" class="label label-info">Draw</span>
+            </td>
+            <td>{{g.date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
