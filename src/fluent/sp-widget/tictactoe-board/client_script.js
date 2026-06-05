@@ -44,6 +44,16 @@ api.controller = function($timeout) {
         });
     };
 
+    c.rematch = function() {
+        var g = c.data.game;
+        if (!g) return;
+        c.server.get({ gameId: g.sys_id, action: 'rematch' }).then(function(r) {
+            if (r.data.error) { c.data.error = r.data.error; return; }
+            if (r.data.rematchGameId)
+                window.location.href = window.location.pathname + '?id=ttt-board&gameId=' + r.data.rematchGameId;
+        });
+    };
+
     c.goLobby = function() {
         window.location.href = window.location.pathname + '?id=ttt-lobby';
     };

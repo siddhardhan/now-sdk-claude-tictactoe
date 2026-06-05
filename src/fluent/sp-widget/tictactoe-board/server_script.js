@@ -50,6 +50,37 @@
         return;
     }
 
+    // Handle rematch action
+    if (input && input.action === 'rematch') {
+        var finishedStatus = gr.getValue('status');
+        if (finishedStatus !== 'completed' && finishedStatus !== 'draw') {
+            data.error = 'Cannot rematch: game is not finished.';
+        } else {
+            var winnerId = gr.getValue('winner');
+            // Loser (or opponent on draw) becomes new initiator so they go first as X
+            var newInitiatorId = (finishedStatus === 'draw' || winnerId === initiatorId)
+                ? opponentId : initiatorId;
+            var newOpponentId  = (newInitiatorId === initiatorId) ? opponentId : initiatorId;
+
+            var ng = new GlideRecord('x_1561651_tic_tac_game');
+            ng.initialize();
+            ng.setValue('initiator', newInitiatorId);
+            ng.setValue('opponent',  newOpponentId);
+            ng.setValue('title', 'Rematch: ' + (gr.getDisplayValue('title') || 'Tic Tac Toe'));
+            var rematchId = ng.insert();
+
+            // Both players are known — immediately start the game
+            var rg = new GlideRecord('x_1561651_tic_tac_game');
+            if (rg.get(rematchId)) {
+                rg.setValue('status', 'in_progress');
+                rg.update();
+            }
+            data.rematchGameId = rematchId;
+        }
+        data.game = loadGame(gr);
+        return;
+    }
+
     // Handle makeMove action
     if (input && input.action === 'makeMove') {
         var position = parseInt(input.position, 10);

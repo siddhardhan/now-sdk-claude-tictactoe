@@ -62,6 +62,8 @@
       <button class="btn btn-default" ng-click="c.goLobby()">Back to Lobby</button>
       <button class="btn btn-link" ng-click="c.refresh()"
               ng-if="c.data.game.status === 'in_progress'">Refresh</button>
+      <button class="btn btn-primary" ng-click="c.rematch()"
+              ng-if="c.data.game.status === 'completed' || c.data.game.status === 'draw'">Rematch</button>
     </div>
   </div>
 
