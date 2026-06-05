@@ -1,7 +1,7 @@
 import '@servicenow/sdk/global'
 import { SPWidget } from '@servicenow/sdk/core'
 
-SPWidget({
+export const tttLobbyWidget = SPWidget({
     $id: Now.ID['ttt_lobby_widget'],
     name: 'x_1561651_tic_tac_lobby',
     htmlTemplate: Now.include('./template.html'),

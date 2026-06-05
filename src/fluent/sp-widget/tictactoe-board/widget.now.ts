@@ -1,7 +1,7 @@
 import '@servicenow/sdk/global'
 import { SPWidget } from '@servicenow/sdk/core'
 
-SPWidget({
+export const tttBoardWidget = SPWidget({
     $id: Now.ID['ttt_board_widget'],
     name: 'x_1561651_tic_tac_board',
     htmlTemplate: Now.include('./template.html'),
