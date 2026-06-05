@@ -19,22 +19,12 @@ api.controller = function($timeout) {
     }
 
     c.refresh = function() {
-        var gameId = c.data.game && c.data.game.sys_id;
-        if (!gameId) return;
-        var ga = new GlideAjax('TicTacToeEngine');
-        ga.addParam('sysparm_name', 'getGameState');
-        ga.addParam('sysparm_game_id', gameId);
-        ga.getXMLAnswer(function(resp) {
-            var r = JSON.parse(resp);
-            if (r.error) return;
-            var g = c.data.game;
-            g.board       = r.board;
-            g.status      = r.status;
-            g.currentTurn = r.currentTurn;
-            g.isMyTurn    = r.isMyTurn;
-            g.winner      = r.winner;
-            if (!g.opponent && r.opponent) g.opponent = r.opponent;
-            buildCells(r.board);
+        c.server.get({ gameId: c.data.game && c.data.game.sys_id }).then(function(r) {
+            if (r.data.game) {
+                c.data.game = r.data.game;
+                buildCells(r.data.game.board);
+            }
+            c.data.error = r.data.error || '';
             scheduleRefresh();
         });
     };
@@ -44,19 +34,12 @@ api.controller = function($timeout) {
         if (!g || !g.isMyTurn || g.status !== 'in_progress') return;
         if (c.cells[index].value) return;
 
-        var ga = new GlideAjax('TicTacToeEngine');
-        ga.addParam('sysparm_name', 'makeMove');
-        ga.addParam('sysparm_game_id', g.sys_id);
-        ga.addParam('sysparm_position', index);
-        ga.getXMLAnswer(function(resp) {
-            var r = JSON.parse(resp);
-            if (r.error) { alert(r.error); return; }
-            g.board       = r.board;
-            g.status      = r.status;
-            g.isMyTurn    = false;
-            g.currentTurn = r.currentTurn;
-            if (r.winner) g.winner = g.mySymbol === 'X' ? g.initiator : g.opponent;
-            buildCells(r.board);
+        c.server.get({ gameId: g.sys_id, action: 'makeMove', position: index }).then(function(r) {
+            if (r.data.error) { c.data.error = r.data.error; return; }
+            if (r.data.game) {
+                c.data.game = r.data.game;
+                buildCells(r.data.game.board);
+            }
             scheduleRefresh();
         });
     };
