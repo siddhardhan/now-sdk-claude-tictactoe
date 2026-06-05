@@ -1,0 +1,37 @@
+.ttt-wrap        { max-width: 460px; margin: 0 auto; padding: 20px; text-align: center; }
+.ttt-title       { margin-bottom: 12px; }
+.ttt-scoreboard  { margin-bottom: 14px; font-size: 15px; }
+.ttt-player      { padding: 4px 10px; border-radius: 4px; }
+.ttt-player.ttt-active { background: #eaf4ff; font-weight: bold; }
+.ttt-sym         { font-weight: bold; margin-right: 4px; }
+.ttt-sym.x       { color: #e74c3c; }
+.ttt-sym.o       { color: #2980b9; }
+.ttt-vs          { margin: 0 10px; color: #999; }
+.ttt-banner      { margin-bottom: 16px; }
+
+.ttt-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 110px);
+  grid-template-rows:    repeat(3, 110px);
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.ttt-cell {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px; font-weight: bold;
+  border: 2px solid #ccc; border-radius: 8px; cursor: default;
+  user-select: none;
+}
+.ttt-cell.x         { color: #e74c3c; }
+.ttt-cell.o         { color: #2980b9; }
+.ttt-cell.playable  { cursor: pointer; background: #fafafa; }
+.ttt-cell.playable:hover { background: #eaf4ff; border-color: #2980b9; }
+
+.ttt-actions     { display: flex; gap: 10px; justify-content: center; }
+.ttt-waiting     { padding: 40px 0; }
+.ttt-spinner {
+  width: 42px; height: 42px; margin: 16px auto;
+  border: 4px solid #ddd; border-top-color: #2980b9;
+  border-radius: 50%; animation: ttt-spin 0.8s linear infinite;
+}
+@keyframes ttt-spin { to { transform: rotate(360deg); } }

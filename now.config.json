@@ -1,0 +1,6 @@
+{
+  "scope": "x_1561651_tic_tac",
+  "scopeId": "b2d4e6c012b0457aa296989b91424ee7",
+  "name": "Tic Tac Toe",
+  "tsconfigPath": "./src/server/tsconfig.json"
+}

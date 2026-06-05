@@ -1,0 +1,68 @@
+<div class="ttt-wrap">
+
+  <!-- Error state -->
+  <div ng-if="c.data.error" class="alert alert-danger">
+    {{c.data.error}}
+    <br/><button class="btn btn-default btn-sm" style="margin-top:8px" ng-click="c.goLobby()">Back to Lobby</button>
+  </div>
+
+  <!-- Waiting for opponent to join -->
+  <div ng-if="c.data.game && c.data.game.status === 'waiting'" class="ttt-waiting">
+    <h3>{{c.data.game.title}}</h3>
+    <p class="lead">You are <strong>X</strong>. Waiting for an opponent to join&hellip;</p>
+    <div class="ttt-spinner"></div>
+    <button class="btn btn-default btn-sm" ng-click="c.goLobby()">Back to Lobby</button>
+  </div>
+
+  <!-- Active or finished game -->
+  <div ng-if="c.data.game && c.data.game.status !== 'waiting'">
+    <h3 class="ttt-title">{{c.data.game.title}}</h3>
+
+    <!-- Players row -->
+    <div class="ttt-scoreboard">
+      <span class="ttt-player"
+            ng-class="{'ttt-active': c.data.game.currentTurn === c.data.game.initiatorId}">
+        <span class="ttt-sym x">X</span> {{c.data.game.initiator}}
+      </span>
+      <span class="ttt-vs">vs</span>
+      <span class="ttt-player"
+            ng-class="{'ttt-active': c.data.game.currentTurn === c.data.game.opponentId}">
+        <span class="ttt-sym o">O</span> {{c.data.game.opponent || '&mdash;'}}
+      </span>
+    </div>
+
+    <!-- Status banner -->
+    <div class="ttt-banner">
+      <span ng-if="c.data.game.status === 'in_progress' &&  c.data.game.isMyTurn"
+            class="label label-success">Your turn ({{c.data.game.mySymbol}})</span>
+      <span ng-if="c.data.game.status === 'in_progress' && !c.data.game.isMyTurn"
+            class="label label-default">Opponent&rsquo;s turn&hellip;</span>
+      <span ng-if="c.data.game.status === 'completed'"
+            class="label label-warning">&#127881; {{c.data.game.winner}} wins!</span>
+      <span ng-if="c.data.game.status === 'draw'"
+            class="label label-info">It&rsquo;s a draw!</span>
+    </div>
+
+    <!-- 3×3 board -->
+    <div class="ttt-grid">
+      <div ng-repeat="cell in c.cells track by cell.index"
+           class="ttt-cell"
+           ng-class="{
+             'x':       cell.value === 'X',
+             'o':       cell.value === 'O',
+             'playable': !cell.value && c.data.game.isMyTurn && c.data.game.status === 'in_progress'
+           }"
+           ng-click="c.makeMove(cell.index)">
+        {{cell.value}}
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="ttt-actions">
+      <button class="btn btn-default" ng-click="c.goLobby()">Back to Lobby</button>
+      <button class="btn btn-link" ng-click="c.refresh()"
+              ng-if="c.data.game.status === 'in_progress'">Refresh</button>
+    </div>
+  </div>
+
+</div>

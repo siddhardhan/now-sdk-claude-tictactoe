@@ -1,0 +1,76 @@
+<div class="ttt-lobby">
+  <h2>Tic Tac Toe</h2>
+
+  <!-- Create new game -->
+  <div class="panel panel-primary">
+    <div class="panel-heading"><h3 class="panel-title">Start a New Game</h3></div>
+    <div class="panel-body">
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="c.newTitle"
+               placeholder="Game title (optional)" />
+        <span class="input-group-btn">
+          <button class="btn btn-primary" ng-click="c.createGame()">Create &amp; Wait</button>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- My waiting games -->
+  <div class="panel panel-warning" ng-if="c.data.myWaiting.length">
+    <div class="panel-heading"><h3 class="panel-title">My Games — Waiting for Opponent</h3></div>
+    <div class="panel-body">
+      <table class="table table-condensed">
+        <thead><tr><th>Title</th><th>Created</th><th></th></tr></thead>
+        <tbody>
+          <tr ng-repeat="g in c.data.myWaiting">
+            <td>{{g.title}}</td>
+            <td>{{g.created}}</td>
+            <td><button class="btn btn-xs btn-default" ng-click="c.openGame(g.sys_id)">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Available games to join -->
+  <div class="panel panel-success">
+    <div class="panel-heading"><h3 class="panel-title">Available Games — Join One</h3></div>
+    <div class="panel-body">
+      <p ng-if="!c.data.availableGames.length" class="text-muted">
+        No open games right now. Create one above!
+      </p>
+      <table class="table table-hover" ng-if="c.data.availableGames.length">
+        <thead><tr><th>Title</th><th>Created by</th><th>Since</th><th></th></tr></thead>
+        <tbody>
+          <tr ng-repeat="g in c.data.availableGames">
+            <td>{{g.title}}</td>
+            <td>{{g.initiator}}</td>
+            <td>{{g.created}}</td>
+            <td><button class="btn btn-xs btn-success" ng-click="c.joinGame(g.sys_id)">Join</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- My active games -->
+  <div class="panel panel-info" ng-if="c.data.myGames.length">
+    <div class="panel-heading"><h3 class="panel-title">My Active Games</h3></div>
+    <div class="panel-body">
+      <table class="table table-hover">
+        <thead><tr><th>Title</th><th>Opponent</th><th>Turn</th><th></th></tr></thead>
+        <tbody>
+          <tr ng-repeat="g in c.data.myGames">
+            <td>{{g.title}}</td>
+            <td>{{g.vs}}</td>
+            <td>
+              <span ng-if="g.isMyTurn"  class="label label-success">Your Turn</span>
+              <span ng-if="!g.isMyTurn" class="label label-default">Waiting…</span>
+            </td>
+            <td><button class="btn btn-xs btn-info" ng-click="c.openGame(g.sys_id)">Play</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
