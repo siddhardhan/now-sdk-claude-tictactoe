@@ -7,6 +7,8 @@
 .ttt-sym.x       { color: #e74c3c; }
 .ttt-sym.o       { color: #2980b9; }
 .ttt-vs          { margin: 0 10px; color: #999; }
+.ttt-h2h         { font-size: 12px; color: #888; margin-bottom: 10px; }
+.ttt-h2h strong  { color: #333; }
 .ttt-banner      { margin-bottom: 16px; }
 
 .ttt-grid {

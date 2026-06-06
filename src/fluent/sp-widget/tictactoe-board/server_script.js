@@ -122,4 +122,39 @@
     }
 
     data.game = loadGame(gr);
+
+    // Head-to-head record (only when both players are known)
+    data.h2h = null;
+    if (opponentId) {
+        var h2h = { wins: 0, losses: 0, draws: 0 };
+        var otherId = (userId === initiatorId) ? opponentId : initiatorId;
+
+        // Games where I was initiator and they were opponent
+        var q1 = new GlideRecord('x_1561651_tic_tac_game');
+        var q1s = q1.addQuery('status', 'completed');
+        q1s.addOrCondition('status', 'draw');
+        q1.addQuery('initiator', userId);
+        q1.addQuery('opponent', otherId);
+        q1.query();
+        while (q1.next()) {
+            if (q1.getValue('status') === 'draw') h2h.draws++;
+            else if (q1.getValue('winner') === userId) h2h.wins++;
+            else h2h.losses++;
+        }
+
+        // Games where they were initiator and I was opponent
+        var q2 = new GlideRecord('x_1561651_tic_tac_game');
+        var q2s = q2.addQuery('status', 'completed');
+        q2s.addOrCondition('status', 'draw');
+        q2.addQuery('initiator', otherId);
+        q2.addQuery('opponent', userId);
+        q2.query();
+        while (q2.next()) {
+            if (q2.getValue('status') === 'draw') h2h.draws++;
+            else if (q2.getValue('winner') === userId) h2h.wins++;
+            else h2h.losses++;
+        }
+
+        if (h2h.wins + h2h.losses + h2h.draws > 0) data.h2h = h2h;
+    }
 })();

@@ -31,6 +31,12 @@
       </span>
     </div>
 
+    <!-- Head-to-head record -->
+    <div class="ttt-h2h" ng-if="c.data.h2h">
+      You vs {{c.data.game.mySymbol === 'X' ? c.data.game.opponent : c.data.game.initiator}}:
+      <strong>{{c.data.h2h.wins}}W {{c.data.h2h.losses}}L {{c.data.h2h.draws}}D</strong>
+    </div>
+
     <!-- Status banner -->
     <div class="ttt-banner">
       <span ng-if="c.data.game.status === 'in_progress' &&  c.data.game.isMyTurn"
