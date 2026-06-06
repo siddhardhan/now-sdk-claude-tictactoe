@@ -162,6 +162,55 @@ SP widgets **must not** use `GlideAjax`. All server calls from widgets use `c.se
 
 ---
 
+## Git Workflow — REQUIRED FOR ALL CHANGES
+
+**Never commit directly to `main`.** Every feature, fix, or docs change must follow this flow:
+
+### 1. Create a feature branch
+Branch names follow the pattern `<type>/<short-description>`:
+| Type | When to use |
+|---|---|
+| `feat/` | New feature or capability |
+| `fix/` | Bug fix |
+| `docs/` | Documentation only |
+| `chore/` | Config, deps, tooling |
+
+```bash
+git checkout main && git pull
+git checkout -b feat/my-feature-name
+```
+
+### 2. Commit on the branch
+Make one commit per logical unit of work (not per file). Follow the existing commit message style:
+```
+feat: short description of what was added
+
+Optional longer explanation of why or what changed.
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+```
+
+### 3. Push and open a PR
+```bash
+git push -u origin feat/my-feature-name
+gh pr create --title "feat: short description" --body "$(cat <<'EOF'
+## Summary
+- Bullet point of what changed
+
+## Test plan
+- [ ] npm run build passes
+- [ ] Deployed and verified on instance
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
+```
+
+### 4. Merge
+PRs target `main`. After the PR is reviewed and merged, delete the branch.
+
+---
+
 ## Development Workflow
 
 ```bash
