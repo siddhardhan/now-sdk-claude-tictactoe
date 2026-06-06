@@ -13,6 +13,8 @@
     },
     "include": [
         "./**/*.server.js",
+        "./**/server_script.js",
+        "./server/**/*.js",
         "../@types/servicenow/*.server.d.ts"
     ]
 }
