@@ -5,7 +5,7 @@
             "DOM",
             "ES6"
         ],
-        "checkJs": true,
+        "checkJs": false,
         "allowJs": true,
         "noEmit": true,
         "noEmitHelpers": true,
@@ -15,6 +15,7 @@
     },
     "include": [
         "./**/*.client.js",
+        "./**/client_script.js",
         "../@types/servicenow/*.client.d.ts"
     ]
 }

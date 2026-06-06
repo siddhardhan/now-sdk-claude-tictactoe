@@ -21,6 +21,45 @@ A multiplayer Tic Tac Toe game built as a scoped ServiceNow application using th
 - **Admin UI**: Now Workspace (NX framework, UI Builder)
 - **Server logic**: GlideRecord inside SP widget server scripts (no GlideAjax in widgets)
 
+### System Diagram
+
+```mermaid
+flowchart LR
+    subgraph client ["Players and Admins"]
+        playerBrowser[Player Browser]
+        adminBrowser[Admin Browser]
+    end
+    subgraph gateway ["ServiceNow Platform"]
+        snPortal[Service Portal]
+        snWorkspace[Now Workspace]
+    end
+    subgraph service ["Application Logic"]
+        lobbyWidget[Lobby Widget]
+        boardWidget[Board Widget]
+        leaderboardWidget[Leaderboard Widget]
+        workspaceLists[Workspace Lists]
+        setupBR[Game Setup BR]
+    end
+    subgraph datastore ["Data Layer"]
+        gameTable["Game Table"]
+        userTable["User Table"]
+    end
+
+    playerBrowser -->|"HTTPS /ttt"| snPortal
+    adminBrowser -->|"HTTPS /ttt-workspace"| snWorkspace
+    snPortal -->|"Routes lobby"| lobbyWidget
+    snPortal -->|"Routes board"| boardWidget
+    snPortal -->|"Routes leaderboard"| leaderboardWidget
+    snWorkspace -->|"Dashboard and lists"| workspaceLists
+    lobbyWidget -->|"Reads games"| gameTable
+    lobbyWidget -->|"Looks up users"| userTable
+    lobbyWidget -->|"Inserts game"| setupBR
+    setupBR -->|"Initializes record"| gameTable
+    boardWidget -->|"Reads and writes game"| gameTable
+    leaderboardWidget -->|"Reads stats"| gameTable
+    workspaceLists -->|"Reads all games"| gameTable
+```
+
 ### Data Model — `x_1561651_tic_tac_game`
 | Field | Type | Notes |
 |---|---|---|

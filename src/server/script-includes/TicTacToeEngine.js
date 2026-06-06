@@ -1,3 +1,4 @@
+// @ts-nocheck — uses ServiceNow Class.create() / Object.extendsObject which are dynamically typed
 var TicTacToeEngine = Class.create();
 TicTacToeEngine.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 
